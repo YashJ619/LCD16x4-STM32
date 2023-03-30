@@ -1,0 +1,10 @@
+../Core/Src/lcd.c:14:6:lcd_gpio_init	32	static
+../Core/Src/lcd.c:50:6:lcd_init	8	static
+../Core/Src/lcd.c:76:6:lcd_enable	8	static
+../Core/Src/lcd.c:86:6:write_8bit	16	static
+../Core/Src/lcd.c:100:6:lcd_send_cmd	16	static
+../Core/Src/lcd.c:106:6:lcd_clear	8	static
+../Core/Src/lcd.c:113:6:lcd_send_data	16	static
+../Core/Src/lcd.c:119:6:lcd_oncursor	8	static
+../Core/Src/lcd.c:125:6:lcd_print	16	static
+../Core/Src/lcd.c:135:6:lcd_set_cursor	16	static

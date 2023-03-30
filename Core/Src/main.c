@@ -23,7 +23,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "lcd.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -87,7 +87,10 @@ int main(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
+  lcd_gpio_init();
+  lcd_init();
 
+char ch[] = "hello";
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -97,6 +100,9 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  lcd_set_cursor(1, 1);
+	  lcd_print(ch);
+	  HAL_Delay(1000);
   }
   /* USER CODE END 3 */
 }
