@@ -25,26 +25,53 @@
 #define LCD_PORT_D0_4			GPIOB
 #define LCD_PORT_D5_7			GPIOA
 
-#define CMD_FUNTIONSET			0x38U//
-#define CMD_DISPLAYMODE	    	0x08U//
-#define	CMD_DISPLAYCLEAR    	0x01U//
-#define CMD_ENTRYMODE			0x04U//
-#define CMD_RETURNHOME      	0x02U//
-#define CMD_DISPLAY_SHIFT   	0x10U//
-#define CMD_CGRAM_ADDR      	0x40U//
-#define CMD_DDRAM_ADDR      	0x80U//
+/********************************************
+ * COMMANDS
+ *******************************************/
+#define	CMD_CLEARDISPLAY    	0x01U //<Clear display, set cursor position to zero>
+#define CMD_RETURNHOME      	0x02U //<Set cursor position to zero>
+#define CMD_ENTRYMODE			0x04U //<Sets the entry mode>
+#define CMD_DISPLAYCONTROL	    0x08U //<Controls the display; does stuff like turning it off and on>
+#define CMD_CURSORSHIFT   		0x10U //<Lets you move the cursor>
+#define CMD_FUNTIONSET			0x20U //<Used to send the function to set to the display>
+#define CMD_SETCGRAM_ADDR      	0x40U //<Used to set the CGRAM (character generator RAM) with characters>
+#define CMD_SETDDRAM_ADDR      	0x80U //<Used to set the DDRAM (Display Data RAM)>
 
-#define DISPLAY_ON	    		  0x04U//
-#define DISPLAY_OFF	    		~(0x04U)//
-#define CURSOR_ON     			  0x02U//
-#define CURSOR_OFF     			~(0x02U)//
-#define BLINK_ON      			  0x01U//
-#define BLINK_OFF      			~(0x01U)//
+/*******************************************
+ * flags for display entry mode
+ *******************************************/
+#define LCD_ENTRYRIGHT 			0x00U //<Used to set text to flow from right to left>
+#define LCD_ENTRYLEFT 			0x02U //<Used to set text to flow from left to right>
+#define LCD_ENTRYSHIFTINC		0X01U //<Used to 'right justify' text from the cursor>
+#define LCD_ENTRYSHIFTDEC		0X00 //<Used to 'left justify' text from the cursor>
 
-#define ENTRYMODE_INC	   		  0x02U//
-#define ENTRYMODE_DEC 		    ~(0x02U)//
-#define ENTRYMODE_FLIP_ON         0x01U//
-#define ENTRYMODE_FLIP_OFF      ~(0x01U)//
+/*******************************************
+ * flags for display on/off control
+ ******************************************/
+#define DISPLAY_ON	    		  0x04U //<Turns the display on>
+#define DISPLAY_OFF	    		  0X00U //<Turns the display off>
+#define CURSOR_ON     			  0x02U //<Turns the cursor on>
+#define CURSOR_OFF     			  0x00U //<Turns the cursor off>
+#define BLINK_ON      			  0x01U //<Turns on the blinking cursor>
+#define BLINK_OFF      			  0X00U //<Turns off the blinking cursor>
+
+/******************************************
+ * flags for display/cursor shift
+ *****************************************/
+#define LCD_DISPLAYMOVE			  0x08U //<Flag for moving the display>
+#define LCD_CURSORMOVE 			  0x00U //<Flag for moving the cursor>
+#define LCD_MOVERIGHT 			  0x04U //<Flag for moving right>
+#define LCD_MOVELEFT 			  0x00U //<Flag for moving left>
+
+/****************************************
+ * flags for function set
+ ***************************************/
+#define LCD_8BITMODE 			  0x10U //<LCD 8 bit mode>
+#define LCD_4BITMODE 			  0x00U //<LCD 4 bit mode>
+#define LCD_2LINE 				  0x08U //<LCD 2 line mode>
+#define LCD_1LINE 				  0x00U //<LCD 1 line mode>
+#define LCD_5x10DOTS 			  0x04U //<10 pixel high font mode>
+#define LCD_5x8DOTS   			  0x00U  //<8 pixel high font mode>
 
 void lcd_gpio_init(void);
 void lcd_init(void);

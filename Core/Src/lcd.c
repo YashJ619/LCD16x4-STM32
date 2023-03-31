@@ -72,7 +72,6 @@ void lcd_init()
 	HAL_Delay(1);
 }
 
-
 void lcd_enable()
 {
 	HAL_GPIO_WritePin(LCD_PORT_CTRL, LCD_PIN_EN, GPIO_PIN_RESET);
@@ -109,7 +108,6 @@ void lcd_clear()
 	HAL_Delay(3);
 }
 
-
 void lcd_send_data(uint8_t data)
 {
 	HAL_GPIO_WritePin(LCD_PORT_CTRL, LCD_PIN_RS, GPIO_PIN_SET);
@@ -130,7 +128,6 @@ void lcd_print(char *str)
 		str++;
 	}while(*str != '\0');
 }
-
 
 void lcd_set_cursor(uint8_t row, uint8_t col)
 {
