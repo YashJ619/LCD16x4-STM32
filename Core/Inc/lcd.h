@@ -33,7 +33,7 @@
 #define CMD_ENTRYMODE			0x04U //<Sets the entry mode>
 #define CMD_DISPLAYCONTROL	    0x08U //<Controls the display; does stuff like turning it off and on>
 #define CMD_CURSORSHIFT   		0x10U //<Lets you move the cursor>
-#define CMD_FUNTIONSET			0x20U //<Used to send the function to set to the display>
+#define CMD_FUNCTIONSET			0x20U //<Used to send the function to set to the display>
 #define CMD_SETCGRAM_ADDR      	0x40U //<Used to set the CGRAM (character generator RAM) with characters>
 #define CMD_SETDDRAM_ADDR      	0x80U //<Used to set the DDRAM (Display Data RAM)>
 
@@ -74,14 +74,23 @@
 #define LCD_5x8DOTS   			  0x00U  //<8 pixel high font mode>
 
 void lcd_gpio_init(void);
-void lcd_init(void);
-void lcd_set_cursor(uint8_t row, uint8_t col);
+void lcd_init(uint8_t fourbitmode);
+void lcd_begin(uint8_t cols, uint8_t lines, uint8_t dotsize);
+void lcd_home(void);
+void lcd_display(uint8_t state);
+void lcd_enable(void);
+void write_8bit(uint8_t value);
+void lcd_send_cmd(uint8_t cmd);
 void lcd_clear(void);
 void lcd_send_data(uint8_t data);
-void lcd_send_cmd(uint8_t cmd);
-void write_8bit(uint8_t value);
+void lcd_cursor(uint8_t state);
+void lcd_blink(uint8_t state);
+void lcd_scrollDisplayLeft(void);
+void lcd_scrollDisplayRight(void);
+void lcd_leftToRight(void);
+void lcd_rightToLeft(void);
+void lcd_autoscroll(uint8_t state);
 void lcd_print(char *str);
-void lcd_enable(void);
-void lcd_oncursor(void);
+void lcd_set_cursor(uint8_t col, uint8_t row);
 
 #endif /* INC_LCD_H_ */

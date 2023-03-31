@@ -88,9 +88,10 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
   lcd_gpio_init();
-  lcd_init();
+  lcd_init(0);
+  lcd_begin(16, 4, 0);
 
-char ch[] = "hello";
+char ch[] = "hello\0";
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -101,7 +102,7 @@ char ch[] = "hello";
 
     /* USER CODE BEGIN 3 */
 	  lcd_set_cursor(1, 1);
-	  lcd_print(ch);
+	  lcd_cursor(1);
 	  HAL_Delay(1000);
   }
   /* USER CODE END 3 */
