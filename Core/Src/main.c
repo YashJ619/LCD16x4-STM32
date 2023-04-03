@@ -103,6 +103,7 @@ char ch[] = "hello\0";
     /* USER CODE BEGIN 3 */
 	  lcd_set_cursor(1, 1);
 	  lcd_cursor(1);
+	  lcd_print(ch);
 	  HAL_Delay(1000);
   }
   /* USER CODE END 3 */

@@ -17,18 +17,24 @@ uint8_t _currline = 0;
 
 void lcd_gpio_init(void)
 {
+	__HAL_RCC_AFIO_CLK_ENABLE();
+	__HAL_AFIO_REMAP_SWJ_NONJTRST();
+	__HAL_AFIO_REMAP_SWJ_NOJTAG();
+
+	//__HAL_AFIO_REMAP_SWJ_DISABLE();
+
 	__HAL_RCC_GPIOA_CLK_ENABLE();
 	__HAL_RCC_GPIOB_CLK_ENABLE();
 
 	GPIO_InitTypeDef GPIOx = {0};
 
-	HAL_GPIO_WritePin(LCD_PORT_CTRL, LCD_PIN_RS, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(LCD_PORT_CTRL, LCD_PIN_RS, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(LCD_PORT_CTRL, LCD_PIN_EN, GPIO_PIN_RESET);
 
 	GPIOx.Pin = LCD_PIN_RS | LCD_PIN_EN;
 	GPIOx.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIOx.Pull = GPIO_NOPULL;
-	GPIOx.Speed = GPIO_SPEED_FREQ_HIGH;
+	GPIOx.Pull = GPIO_PULLDOWN;
+	GPIOx.Speed = GPIO_SPEED_FREQ_LOW;
 
 	HAL_GPIO_Init(LCD_PORT_CTRL, &GPIOx);
 
@@ -36,8 +42,8 @@ void lcd_gpio_init(void)
 
 	GPIOx.Pin = LCD_PIN_D0 | LCD_PIN_D1 | LCD_PIN_D2 | LCD_PIN_D3 | LCD_PIN_D4;
 	GPIOx.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIOx.Pull = GPIO_NOPULL;
-	GPIOx.Speed = GPIO_SPEED_FREQ_HIGH;
+	GPIOx.Pull = GPIO_PULLDOWN;
+	GPIOx.Speed = GPIO_SPEED_FREQ_LOW;
 
 	HAL_GPIO_Init(LCD_PORT_D0_4, &GPIOx);
 
@@ -45,8 +51,8 @@ void lcd_gpio_init(void)
 
 	GPIOx.Pin = LCD_PIN_D5 | LCD_PIN_D6 | LCD_PIN_D7;
 	GPIOx.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIOx.Pull = GPIO_NOPULL;
-	GPIOx.Speed = GPIO_SPEED_FREQ_HIGH;
+	GPIOx.Pull = GPIO_PULLDOWN;
+	GPIOx.Speed = GPIO_SPEED_FREQ_LOW;
 
 	HAL_GPIO_Init(LCD_PORT_D5_7, &GPIOx);
 
@@ -78,7 +84,7 @@ void lcd_begin(uint8_t cols, uint8_t lines, uint8_t dotsize)
 	// according to datasheet, we need at least 40ms after power rises above 2.7V
 	// before sending commands. Arduino can turn on way befer 4.5V so we'll wait
 	// 50
-	HAL_Delay(50000);
+	HAL_Delay(1000);
 	// Now we pull both RS and R/W low to begin commands
 	HAL_GPIO_WritePin(LCD_PORT_CTRL, LCD_PIN_RS | LCD_PIN_EN, GPIO_PIN_RESET);
 
@@ -109,15 +115,15 @@ void lcd_begin(uint8_t cols, uint8_t lines, uint8_t dotsize)
 	    // page 45 figure 23
 
 	    // Send function set command sequence
-		lcd_send_cmd(CMD_FUNCTIONSET | _displayfunction);
-		HAL_Delay(4500); // wait more than 4.1ms
+		lcd_send_cmd(CMD_FUNCTIONSET | _displayfunction); // 38
+		HAL_Delay(10); // wait more than 4.1ms
 
 	    // second try
-	    lcd_send_cmd(CMD_FUNCTIONSET | _displayfunction);
+	    lcd_send_cmd(CMD_FUNCTIONSET | _displayfunction); //38
 	    HAL_Delay(1);
 
 	    // third go
-	    lcd_send_cmd(CMD_FUNCTIONSET | _displayfunction);
+	    lcd_send_cmd(CMD_FUNCTIONSET | _displayfunction); //38
 	  //}
 
 	// finally, set # lines, font size, etc.
@@ -271,15 +277,15 @@ void lcd_print(char *str)
 	}while(*str != '\0');
 }
 
-void lcd_set_cursor(uint8_t col, uint8_t row)
-{
-	int row_offsets[] = {0x00, 0x40, 0x14, 0x54};
-	if (row > _numlines) {
-		row = _numlines - 1; // we count rows starting w/0
-		}
-	lcd_send_cmd(CMD_SETDDRAM_ADDR | (col + row_offsets[row]));
-}
-/*
+//void lcd_set_cursor(uint8_t col, uint8_t row)
+//{
+//	int row_offsets[] = {0x00, 0x40, 0x14, 0x54};
+//	if (row > _numlines) {
+//		row = _numlines - 1; // we count rows starting w/0
+//		}
+//	lcd_send_cmd(CMD_SETDDRAM_ADDR | (col + row_offsets[row]));
+//}
+
 void lcd_set_cursor(uint8_t row, uint8_t col)
 {
 	col--;
@@ -301,4 +307,4 @@ void lcd_set_cursor(uint8_t row, uint8_t col)
 		break;
 	}
 }
-*/
+
